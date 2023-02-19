@@ -309,7 +309,9 @@ def main():
 
     application.run_webhook(
         listen='0.0.0.0',
-        port=
+        port=int('8443'),
+        secret_token=secret_token,
+        webhook_url='https://itlab-power-socket.herokuapp.com/'
     )
 
 
