@@ -21,17 +21,17 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-secret_token = os.getenv("TOKEN")
+TOKEN = os.getenv('TOKEN')
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.INFO,
 )
 
-URL = 'http://51.250.78.79/api/v1/devices/2/'  # надо править, тк заточено только под определенный айди сейчас
-URL_2 = 'http://51.250.78.79/api/v1/jwt/create/'
-AUTH = ''
-CURR_INFO = ''
+URL = os.getenv('URL')
+URL_2 = os.getenv('URL_2')
+AUTH = ''   # понадобится дальше в коде
+CURR_INFO = ''   # понадобится дальше в коде
 
 LOGIN, PASSWORD, INFO, TEMP, TEMP_LOW, TEMP_HIGH, ON_OFF, HEAT_COOL = range(8)
 
@@ -275,7 +275,6 @@ async def heat_cool_send(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    """Cancels and ends the conversation."""
     await update.message.reply_text(
         "Bye! I hope we can talk again some day.",
     )
@@ -307,12 +306,7 @@ def main():
 
     application.add_handler(conv_handler)
 
-    application.run_webhook(
-        listen='0.0.0.0',
-        port=int('8443'),
-        secret_token=secret_token,
-        webhook_url='https://itlab-power-socket.herokuapp.com/'
-    )
+    application.run_polling()
 
 
 if __name__ == '__main__':
